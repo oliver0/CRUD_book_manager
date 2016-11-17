@@ -7,10 +7,32 @@ $(document).ready(function () {
     $("#book-list").on('click', '.delete', deleteBook);
     // update a book
     $("#book-list").on('click', '.update', updateBook);
+    // submit genre
+    $("#submit").on('click', function(){
+      getGenre();
+    });
 });
-/**
- * Retrieve books from server and append to DOM
- */
+
+// retrieve books from server with specific genre and append to DOM
+ function getGenre() {
+    var genre = $('select').val();
+
+   $.ajax({
+     type: 'GET',
+     url: '/books/' + genre, // add genre to url to match up with the specific get request
+     success: function(books) {
+       appendBooks(books);
+;     },
+     error: function() {
+       console.log('Database error');
+     }
+
+   });
+ }
+
+ /**
+  * Retrieve books from server and append to DOM
+  */
 function getBooks() {
   $.ajax({
     type: 'GET',
